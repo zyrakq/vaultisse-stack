@@ -6,7 +6,7 @@ Upstream: https://github.com/AlbertAmat/vaultisse (analysis commit `cbcad08`, ta
 
 | part | purpose | image |
 |------|---------|-------|
-| `vaultisse` | Single Node deployable: Express API + built Vue client served on one port (`API_PORT`, image EXPOSE 3000). Personal book library with vaults, ISBN/metadata lookups (bundled YAZ Z39.50 client for SBN/Italian library sources), ebook uploads stored in the database, auto-migration of the schema at startup (`/app/db` upgrade SQL). Health endpoint `/api/rest/app/version`. | published: `ghcr.io/albertamat/vaultisse` (tag `v1.3.8`) |
+| `vaultisse` | Single Node deployable: Express API + built Vue client served on one port (`API_PORT`, image EXPOSE 3000). Personal book library with vaults, ISBN/metadata lookups (bundled YAZ Z39.50 client for SBN/Italian library sources), ebook uploads stored in the database, auto-migration of the schema at startup (`/app/db` upgrade SQL). Health endpoint `/api/rest/app/version`. | published: `ghcr.io/albertamat/vaultisse` (tag `1.3.8`) |
 
 No other deployable part exists upstream. The upstream compose adds `db` (PostgreSQL) and an optional `cloudflared` profile (see catalog).
 

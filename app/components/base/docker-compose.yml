@@ -8,7 +8,7 @@ x-logging: &default-logging
 services:
   vaultisse:
     container_name: vaultisse
-    image: ${IMAGE:-ghcr.io/albertamat/vaultisse:v1.3.8}
+    image: ${IMAGE:-ghcr.io/albertamat/vaultisse:1.3.8}
     restart: unless-stopped
     logging: *default-logging
     environment:

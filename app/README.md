@@ -93,7 +93,7 @@ Status per the extension catalog in [`DEPLOYMENT.md`](../DEPLOYMENT.md) (stack-c
 ### Base Configuration
 
 - `COMPOSE_PROJECT_NAME`: Project name for Docker Compose (default: `vaultisse`)
-- `IMAGE`: Docker image (default: `ghcr.io/albertamat/vaultisse:v1.3.8`)
+- `IMAGE`: Docker image (default: `ghcr.io/albertamat/vaultisse:1.3.8`)
 - `LOG_MAX_SIZE`: json-file log max size (default: `10m`)
 - `LOG_MAX_FILE`: json-file log file count (default: `3`)
 - `LOG_COMPRESS`: compress rotated logs (default: `true`)
