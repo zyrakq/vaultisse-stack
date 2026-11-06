@@ -45,7 +45,7 @@ No outer groups → no cross-group link gate.
 
 | extension | type | status | dependencies |
 |-----------|------|--------|--------------|
-| `oidc` | infra | `available` (unimplemented; staged as base stage B above) | kanidm provider; `OIDC_*` env block |
+| `oidc` | infra | `implemented` (wired; Stage B live gate pending) | kanidm provider; `OIDC_*` env block |
 | `database/pgrust` | infra | `available` (unimplemented; A2 swap of the mandatory pair) | none |
 | `s3-storage` | infra | `refused` — no S3 support in the app (uploads in Postgres); no suitable volume for s3fs-fuse | — |
 | `cloudflared` | product (optional companion) | `available` upstream compose profile (`cloudflare`), `CLOUDFLARE_TUNNEL_TOKEN` | none |
