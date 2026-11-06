@@ -3,7 +3,8 @@
 Self-hosted personal book library: organize books into vaults, enrich them
 with ISBN/metadata lookups (bundled YAZ Z39.50 client for SBN/Italian library
 sources plus Google Books / LibraryThing), and upload ebooks that are stored
-directly in PostgreSQL.
+directly in PostgreSQL. Upstream provenance and pinned sources are documented
+in [`UPSTREAM.md`](UPSTREAM.md).
 
 ## 🧩 Components
 
