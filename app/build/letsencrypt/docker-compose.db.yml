@@ -1,6 +1,6 @@
 services:
   vaultisse-db:
-    image: ${DB_IMAGE:-postgres:alpine}
+    image: ${DB_IMAGE:-malisper/pgrust:v0.2}
     container_name: vaultisse-db
     restart: unless-stopped
     environment:

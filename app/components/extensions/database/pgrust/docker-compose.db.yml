@@ -16,7 +16,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - vaultisse-network
 
 volumes:
   vaultisse-db:
     name: vaultisse-db
+
+networks:
+  vaultisse-network:
+    name: vaultisse-network

@@ -9,7 +9,7 @@ copy_additional_files = true
 env_file_patterns = [".env"]
 
 [build.combos]
-entire = ["database/postgresql"]
+entire = ["database/pgrust"]
 
 [build.environments]
 available = ["forwarding", "letsencrypt", "step-ca"]

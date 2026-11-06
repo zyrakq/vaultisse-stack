@@ -13,7 +13,7 @@ cp components/base/.env.example .env
 Then append the database pair variables and set the two secrets:
 
 ```bash
-cat components/extensions/database/postgresql/.env.example >> .env
+cat components/extensions/database/pgrust/.env.example >> .env
 # Edit .env: set JWT_SECRET (openssl rand -hex 32) and POSTGRES_PASSWORD
 ```
 
@@ -29,13 +29,13 @@ This creates all environment × combo combinations under `build/` based on [`sta
 
 ```bash
 # For development with port forwarding
-cd build/forwarding/entire/
+cd build/forwarding/
 
 # For production with Let's Encrypt SSL
-cd build/letsencrypt/entire/
+cd build/letsencrypt/
 
 # For production with Step CA SSL
-cd build/step-ca/entire/
+cd build/step-ca/
 ```
 
 ### 4. Deploy
@@ -56,7 +56,7 @@ Access: `http://localhost:3000` (forwarding mode). The first user registers at `
 The product's functional base per [`DEPLOYMENT.md`](../DEPLOYMENT.md) (stack-conventions §20) — one compose service per part:
 
 - **vaultisse**: Single deployable — Express API + built Vue client served on one port (`API_PORT`, image EXPOSE 3000). Personal book library with vaults, ISBN/metadata lookups, ebook uploads stored in the database, and schema auto-migration at startup. Health endpoint: `/api/rest/app/version`. Logs go to the `vaultisse-logs` volume.
-- **vaultisse-db** (mandatory infra): PostgreSQL, provided by the `database/postgresql` extension fragment (`database/pgrust` is the Stage A2 swap variant). The app faults without it — migrations and every repository need it at startup.
+- **vaultisse-db** (mandatory infra): PostgreSQL-compatible database, provided by the `database/pgrust` extension fragment (`database/postgresql` is the swap-back variant). The app faults without it — migrations and every repository need it at startup.
 
 ## 📁 Project Structure
 
@@ -81,8 +81,8 @@ Status per the extension catalog in [`DEPLOYMENT.md`](../DEPLOYMENT.md) (stack-c
 
 | extension | status | notes |
 |-----------|--------|-------|
-| `database/postgresql` | **implemented** (default combo `entire`) | Mandatory infra — `vaultisse-db` with healthcheck; the app depends on it (`service_healthy`). |
-| `database/pgrust` | `available` | Stage A2 swap of the mandatory database pair (`malisper/pgrust:v0.2`); rebuild and re-run the Stage A gate, keep if clean. |
+| `database/pgrust` | **implemented** (default combo `entire`) | Mandatory infra — `vaultisse-db` with healthcheck (`malisper/pgrust:v0.2`); the app depends on it (`service_healthy`). Stage A2 gate passed (step-ca + forwarding variants). |
+| `database/postgresql` | `available` | Swap-back variant of the mandatory database pair (`postgres:alpine`); rebuild and re-run the Stage A gate if switching. |
 | `oidc` | `available` | Base stage B — SSO against the kanidm provider via the `OIDC_*` env block; not scaffolded yet. |
 | `s3-storage` | `refused` | No S3 support in the app (uploads go into Postgres); no suitable volume for s3fs-fuse. |
 | `cloudflared` | `available` | Optional upstream compose profile (`cloudflare`) — Cloudflare tunnel companion via `CLOUDFLARE_TUNNEL_TOKEN`. |
@@ -109,7 +109,7 @@ Status per the extension catalog in [`DEPLOYMENT.md`](../DEPLOYMENT.md) (stack-c
 - `POSTGRES_DB`: Database name (default: `vaultisse`)
 - `POSTGRES_USER`: Database user (default: `vaultisse`)
 - `POSTGRES_PASSWORD`: **Required** — set a strong password in `.env`
-- `DB_IMAGE`: Database image override (default: `postgres:alpine`, or `malisper/pgrust:v0.2` for the pgrust variant)
+- `DB_IMAGE`: Database image override (default: `malisper/pgrust:v0.2`, or `postgres:alpine` for the postgresql variant)
 - `COMPOSE_EXTENDS` / `COMPOSE_FILE`: sb dual-file idiom wiring (`:docker-compose.db.yml` / `docker-compose.yml${COMPOSE_EXTENDS:-}`) — keep as generated
 
 ### Forwarding Overlay (overlay-only — add to `.env` manually)
