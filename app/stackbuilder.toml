@@ -3,7 +3,7 @@ environments_path = "./environments"
 extensions_dirs = ["extensions"]
 
 [build]
-yaml_merger = "rust"
+yaml_merger = "yq"
 skip_base_generation = true
 copy_additional_files = true
 env_file_patterns = [".env"]
