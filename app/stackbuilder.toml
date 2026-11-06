@@ -1,0 +1,23 @@
+[paths]
+environments_path = "./environments"
+extensions_dirs = ["extensions"]
+
+[build]
+skip_base_generation = true
+copy_additional_files = true
+env_file_patterns = [".env"]
+
+[build.combos]
+entire = ["database/postgresql"]
+
+[build.environments]
+available = ["forwarding", "letsencrypt", "step-ca"]
+
+[build.environments.forwarding]
+combos = ["entire"]
+
+[build.environments.letsencrypt]
+combos = ["entire"]
+
+[build.environments.step-ca]
+combos = ["entire"]
