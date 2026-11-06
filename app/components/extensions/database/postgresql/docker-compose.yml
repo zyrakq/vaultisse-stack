@@ -1,0 +1,11 @@
+services:
+  vaultisse:
+    environment:
+      DB_HOST: vaultisse-db
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB:-vaultisse}
+      DB_USER: ${POSTGRES_USER:-vaultisse}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+    depends_on:
+      vaultisse-db:
+        condition: service_healthy
