@@ -1,8 +1,8 @@
 services:
   vaultisse:
     environment:
-      FRONT_END_URL: ${FRONT_END_URL:-http://localhost:3000}
-      ALLOW_HTTP: ${ALLOW_HTTP:-true}
-      TRUST_PROXY: ${TRUST_PROXY:-false}
+      FRONT_END_URL: ${FRONT_END_URL}
+      ALLOW_HTTP: ${ALLOW_HTTP}
+      TRUST_PROXY: ${TRUST_PROXY}
     ports:
-      - "${API_PORT:-3000}:${API_PORT:-3000}"
+      - "${API_PORT}:${API_PORT}"

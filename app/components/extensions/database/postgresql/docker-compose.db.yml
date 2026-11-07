@@ -1,14 +1,14 @@
 services:
   vaultisse-db:
-    image: ${DB_IMAGE:-postgres:alpine}
+    image: ${DB_IMAGE}
     container_name: vaultisse-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-vaultisse}
-      POSTGRES_USER: ${POSTGRES_USER:-vaultisse}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
       POSTGRES_INITDB_ARGS: --encoding=UTF8 --lc-ctype=C --lc-collate=C
-      TZ: ${TZ:-UTC}
+      TZ: ${TZ}
     volumes:
       - vaultisse-db:/var/lib/postgresql
     healthcheck:

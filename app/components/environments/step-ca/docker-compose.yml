@@ -2,15 +2,15 @@ services:
   vaultisse:
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
-      VIRTUAL_PORT: ${API_PORT:-3000}
+      VIRTUAL_PORT: ${API_PORT}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      FRONT_END_URL: ${FRONT_END_URL:-https://${VIRTUAL_HOST}}
-      TRUST_PROXY: ${TRUST_PROXY:-true}
-      ALLOW_HTTP: ${ALLOW_HTTP:-false}
+      FRONT_END_URL: ${FRONT_END_URL}
+      TRUST_PROXY: ${TRUST_PROXY}
+      ALLOW_HTTP: ${ALLOW_HTTP}
     configs:
       - source: vhost
-        target: ${VHOST_PATH:-/vhost.d/${VIRTUAL_HOST}}
+        target: ${VHOST_PATH}
     volumes:
       - step-ca-vhost:/vhost.d
     networks:
