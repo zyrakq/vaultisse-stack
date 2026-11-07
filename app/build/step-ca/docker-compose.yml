@@ -43,9 +43,16 @@ services:
       OIDC_GROUPS_CLAIM: "${OIDC_GROUPS_CLAIM:-groups}"
       OIDC_PERSONAL_VAULT: "${OIDC_PERSONAL_VAULT:-true}"
       SSO_ONLY: "${SSO_ONLY:-false}"
+      NODE_EXTRA_CA_CERTS: "${NODE_EXTRA_CA_CERTS:-/step-ca-root/root_ca.crt}"
     volumes:
       - "vaultisse-logs:/app/logs"
       - "step-ca-vhost:/vhost.d"
+      - type: volume
+        source: step-ca-data
+        target: /step-ca-root
+        read_only: true
+        volume:
+          subpath: certs
     networks:
       - vaultisse-network
       - step-ca-network
@@ -66,6 +73,8 @@ volumes:
   vaultisse-logs:
     name: vaultisse-logs
   step-ca-vhost:
+    external: true
+  step-ca-data:
     external: true
 configs:
   vhost:

@@ -3,14 +3,13 @@ environments_path = "./environments"
 extensions_dirs = ["extensions"]
 
 [build]
-yaml_merger = "rust"
 skip_base_generation = true
 copy_additional_files = true
 env_file_patterns = [".env"]
 
 [build.combos]
-# ONE base combo = the functional base (app + database/pgrust + oidc).
 entire = ["database/pgrust", "oidc"]
+entire-trust = ["database/pgrust", "oidc", "step-ca-trust"]
 
 [build.environments]
 available = ["forwarding", "letsencrypt", "step-ca"]
@@ -22,4 +21,4 @@ combos = ["entire"]
 combos = ["entire"]
 
 [build.environments.step-ca]
-combos = ["entire"]
+combos = ["entire-trust"]

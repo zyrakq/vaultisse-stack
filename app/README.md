@@ -83,7 +83,8 @@ Status per the extension catalog in [`DEPLOYMENT.md`](../DEPLOYMENT.md) (stack-c
 |-----------|--------|-------|
 | `database/pgrust` | **implemented** (default combo `entire`) | Mandatory infra — `vaultisse-db` with healthcheck (`malisper/pgrust:v0.2`); the app depends on it (`service_healthy`). Stage A2 gate passed (step-ca + forwarding variants). |
 | `database/postgresql` | `available` | Swap-back variant of the mandatory database pair (`postgres:alpine`); rebuild and re-run the Stage A gate if switching. |
-| `oidc` | `available` | Base stage B — SSO against the kanidm provider via the `OIDC_*` env block; not scaffolded yet. |
+| `oidc` | **implemented** (in combo `entire-trust`) | SSO against the kanidm provider via the `OIDC_*` env block. Deploy behind kanidm with the patch recipe in [`images/vaultisse-kanidm/`](images/vaultisse-kanidm/) (kanidm issues ES256-only id_tokens) and set `OIDC_SCOPES=openid profile email` (kanidm never grants the raw `groups` scope — the claim arrives via claim_map). Stage B gates passed (step-ca/forwarding/letsencrypt variants; JIT personal vault verified). |
+| `step-ca-trust` | **implemented** (in combo `entire-trust`) | step-ca companion for OIDC: mounts the external `step-ca-data` volume's `certs/` subpath read-only and sets `NODE_EXTRA_CA_CERTS` so the app trusts the step-ca root CA for outbound TLS (OIDC discovery + token fetch against kanidm behind step-ca-proxy). step-ca environment only. |
 | `s3-storage` | `refused` | No S3 support in the app (uploads go into Postgres); no suitable volume for s3fs-fuse. |
 | `cloudflared` | `available` | Optional upstream compose profile (`cloudflare`) — Cloudflare tunnel companion via `CLOUDFLARE_TUNNEL_TOKEN`. |
 | metadata provider keys | `available` | Env-only product feature: `GOOGLE_BOOKS_API_KEY`, `LIBRARYTHING_API_KEY` enable online metadata lookup; manual entry works without. |
