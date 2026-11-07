@@ -151,7 +151,7 @@ Status per the extension catalog in [`DEPLOYMENT.md`](../DEPLOYMENT.md) (stack-c
 
 **Startup Issues:**
 - `vaultisse` fault-looping at startup almost always means the database is missing or unhealthy — check `vaultisse-db` health (`pg_isready`) first; the app auto-migrates its schema at startup and needs Postgres before anything else.
-- `JWT_SECRET` / `POSTGRES_PASSWORD` unset → compose fails fast (`${VAR:?set in .env}`).
+- `JWT_SECRET` / `POSTGRES_PASSWORD` unset → compose fails fast (`${VAR:?}`).
 
 **Metadata Lookup Issues:**
 - Online lookups (Google Books / LibraryThing / Z39.50 sources) need outbound HTTPS and, for the hosted APIs, the provider keys; manual book entry works fully offline.
