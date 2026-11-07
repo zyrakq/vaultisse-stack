@@ -1,52 +1,46 @@
----
-x-logging:
+x-logging: &default-logging
   driver: json-file
   options:
-    max-size: "${LOG_MAX_SIZE:-10m}"
-    max-file: "${LOG_MAX_FILE:-3}"
-    compress: "${LOG_COMPRESS:-true}"
+    max-size: ${LOG_MAX_SIZE:-10m}
+    max-file: ${LOG_MAX_FILE:-3}
+    compress: ${LOG_COMPRESS:-true}
 services:
   vaultisse:
     container_name: vaultisse
-    image: "${IMAGE:-ghcr.io/albertamat/vaultisse:1.3.8}"
+    image: ${IMAGE:-ghcr.io/albertamat/vaultisse:1.3.8}
     restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: "${LOG_MAX_SIZE:-10m}"
-        max-file: "${LOG_MAX_FILE:-3}"
-        compress: "${LOG_COMPRESS:-true}"
+    logging: *default-logging
     environment:
-      API_PORT: "${API_PORT:-3000}"
-      JWT_SECRET: "${JWT_SECRET:?set in .env}"
-      SESSION_TIME: "${SESSION_TIME:-3600000}"
-      MAX_SESSION_AGE_DAYS: "${MAX_SESSION_AGE_DAYS:-30}"
-      REGISTRATION_ENABLED: "${REGISTRATION_ENABLED:-true}"
-      TZ: "${TZ:-UTC}"
-      VIRTUAL_HOST: "${VIRTUAL_HOST}"
-      VIRTUAL_PORT: "${API_PORT:-3000}"
-      LETSENCRYPT_HOST: "${LETSENCRYPT_HOST}"
-      LETSENCRYPT_EMAIL: "${LETSENCRYPT_EMAIL}"
-      FRONT_END_URL: "${FRONT_END_URL:-https://${VIRTUAL_HOST}}"
-      TRUST_PROXY: "${TRUST_PROXY:-true}"
-      ALLOW_HTTP: "${ALLOW_HTTP:-false}"
+      API_PORT: ${API_PORT:-3000}
+      JWT_SECRET: ${JWT_SECRET:?set in .env}
+      SESSION_TIME: ${SESSION_TIME:-3600000}
+      MAX_SESSION_AGE_DAYS: ${MAX_SESSION_AGE_DAYS:-30}
+      REGISTRATION_ENABLED: ${REGISTRATION_ENABLED:-true}
+      TZ: ${TZ:-UTC}
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      VIRTUAL_PORT: ${API_PORT:-3000}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      FRONT_END_URL: ${FRONT_END_URL:-https://${VIRTUAL_HOST}}
+      TRUST_PROXY: ${TRUST_PROXY:-true}
+      ALLOW_HTTP: ${ALLOW_HTTP:-false}
       DB_HOST: vaultisse-db
       DB_PORT: 5432
-      DB_NAME: "${POSTGRES_DB:-vaultisse}"
-      DB_USER: "${POSTGRES_USER:-vaultisse}"
-      DB_PASSWORD: "${POSTGRES_PASSWORD:?set in .env}"
-      OIDC_ISSUER: "${OIDC_ISSUER:-https://kanidm.af/oauth2/openid/vaultisse}"
-      OIDC_CLIENT_ID: "${OIDC_CLIENT_ID:-vaultisse}"
-      OIDC_CLIENT_SECRET: "${OIDC_CLIENT_SECRET:?set in .env}"
-      OIDC_REDIRECT_URI: "${OIDC_REDIRECT_URI:-https://vaultisse.af/auth/oidc/callback}"
-      OIDC_SCOPES: "${OIDC_SCOPES:-openid profile email groups}"
-      OIDC_GROUPS_CLAIM: "${OIDC_GROUPS_CLAIM:-groups}"
-      OIDC_PERSONAL_VAULT: "${OIDC_PERSONAL_VAULT:-true}"
-      SSO_ONLY: "${SSO_ONLY:-false}"
-      NODE_EXTRA_CA_CERTS: "${NODE_EXTRA_CA_CERTS:-/step-ca-root/root_ca.crt}"
+      DB_NAME: ${POSTGRES_DB:-vaultisse}
+      DB_USER: ${POSTGRES_USER:-vaultisse}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      OIDC_ISSUER: ${OIDC_ISSUER}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID}
+      OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:?set in .env}
+      OIDC_REDIRECT_URI: ${OIDC_REDIRECT_URI}
+      OIDC_SCOPES: ${OIDC_SCOPES}
+      OIDC_GROUPS_CLAIM: ${OIDC_GROUPS_CLAIM}
+      OIDC_PERSONAL_VAULT: ${OIDC_PERSONAL_VAULT}
+      SSO_ONLY: ${SSO_ONLY}
+      NODE_EXTRA_CA_CERTS: ${NODE_EXTRA_CA_CERTS:-/step-ca-root/root_ca.crt}
     volumes:
-      - "vaultisse-logs:/app/logs"
-      - "step-ca-vhost:/vhost.d"
+      - vaultisse-logs:/app/logs
+      - step-ca-vhost:/vhost.d
       - type: volume
         source: step-ca-data
         target: /step-ca-root
@@ -58,7 +52,7 @@ services:
       - step-ca-network
     configs:
       - source: vhost
-        target: "${VHOST_PATH:-/vhost.d/${VIRTUAL_HOST}}"
+        target: ${VHOST_PATH:-/vhost.d/${VIRTUAL_HOST}}
     depends_on:
       vaultisse-db:
         condition: service_healthy
@@ -78,4 +72,5 @@ volumes:
     external: true
 configs:
   vhost:
-    content: "client_max_body_size 0;\n"
+    content: |
+      client_max_body_size 0;

@@ -1,11 +1,11 @@
 services:
   vaultisse:
     environment:
-      OIDC_ISSUER: ${OIDC_ISSUER:-https://kanidm.af/oauth2/openid/vaultisse}
-      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID:-vaultisse}
+      OIDC_ISSUER: ${OIDC_ISSUER}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID}
       OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:?set in .env}
-      OIDC_REDIRECT_URI: ${OIDC_REDIRECT_URI:-https://vaultisse.af/auth/oidc/callback}
-      OIDC_SCOPES: ${OIDC_SCOPES:-openid profile email groups}
-      OIDC_GROUPS_CLAIM: ${OIDC_GROUPS_CLAIM:-groups}
-      OIDC_PERSONAL_VAULT: ${OIDC_PERSONAL_VAULT:-true}
-      SSO_ONLY: ${SSO_ONLY:-false}
+      OIDC_REDIRECT_URI: ${OIDC_REDIRECT_URI}
+      OIDC_SCOPES: ${OIDC_SCOPES}
+      OIDC_GROUPS_CLAIM: ${OIDC_GROUPS_CLAIM}
+      OIDC_PERSONAL_VAULT: ${OIDC_PERSONAL_VAULT}
+      SSO_ONLY: ${SSO_ONLY}
